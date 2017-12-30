@@ -1,0 +1,4 @@
+module load gcc/4.8.4
+module load petsc/openmpi/gcc/3.5.4
+module load openmpi/gcc/1.8.4
+module load torque/4.2.10
