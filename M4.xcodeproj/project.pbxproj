@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 47;
+	objectVersion = 48;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -15,7 +15,6 @@
 		3FAC44391D14A60C003A4E57 /* MyPDEs.c in Sources */ = {isa = PBXBuildFile; fileRef = 3FAC44151D14A60C003A4E57 /* MyPDEs.c */; };
 		3FAC443A1D14A60C003A4E57 /* MyProfiles.c in Sources */ = {isa = PBXBuildFile; fileRef = 3FAC44171D14A60C003A4E57 /* MyProfiles.c */; };
 		3FAC44461D14A66D003A4E57 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FAC44451D14A66D003A4E57 /* Accelerate.framework */; };
-		3FAC44481D14A678003A4E57 /* PETSc.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FAC44471D14A678003A4E57 /* PETSc.framework */; };
 		3FAC444A1D14A689003A4E57 /* PETSc.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FAC44491D14A689003A4E57 /* PETSc.framework */; };
 		3FAC44571D14AE73003A4E57 /* MyCtx.c in Sources */ = {isa = PBXBuildFile; fileRef = 3FAC44111D14A60C003A4E57 /* MyCtx.c */; };
 		3FAC44581D14AE7B003A4E57 /* MyMonitor.c in Sources */ = {isa = PBXBuildFile; fileRef = 3FAC44131D14A60C003A4E57 /* MyMonitor.c */; };
@@ -25,7 +24,6 @@
 		3FAC445C1D14AEAD003A4E57 /* MyChemistry.c in Sources */ = {isa = PBXBuildFile; fileRef = 3FAC440D1D14A60C003A4E57 /* MyChemistry.c */; };
 		3FAC445D1D14B569003A4E57 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FAC44451D14A66D003A4E57 /* Accelerate.framework */; };
 		3FAC445E1D14B574003A4E57 /* PETSc.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FAC44491D14A689003A4E57 /* PETSc.framework */; };
-		3FAC445F1D14B582003A4E57 /* PETSc.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FAC44471D14A678003A4E57 /* PETSc.framework */; };
 		3FAC44641D14B800003A4E57 /* convert.c in Sources */ = {isa = PBXBuildFile; fileRef = 3FAC44631D14B800003A4E57 /* convert.c */; };
 /* End PBXBuildFile section */
 
@@ -110,7 +108,6 @@
 		3FAC442F1D14A60C003A4E57 /* MyTpnPlots.net */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MyTpnPlots.net; sourceTree = "<group>"; };
 		3FAC44301D14A60C003A4E57 /* Profiles.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Profiles.m; sourceTree = "<group>"; };
 		3FAC44451D14A66D003A4E57 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
-		3FAC44471D14A678003A4E57 /* PETSc.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PETSc.framework; path = "/Users/jeremy/Gdrive/Academic/0-Projects/4-M4/0-Codes/M4s/../../../../Library/Frameworks/PETSc-OSX/debug/PETSc.framework"; sourceTree = "<absolute>"; };
 		3FAC44491D14A689003A4E57 /* PETSc.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PETSc.framework; path = "/Users/jeremy/Desktop/M4s/../../../../Library/Frameworks/PETSc-OSX/release/PETSc.framework"; sourceTree = "<absolute>"; };
 		3FAC444F1D14AE4B003A4E57 /* conv */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = conv; sourceTree = BUILT_PRODUCTS_DIR; };
 		3FAC44631D14B800003A4E57 /* convert.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = convert.c; sourceTree = "<group>"; };
@@ -122,7 +119,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				3FAC444A1D14A689003A4E57 /* PETSc.framework in Frameworks */,
-				3FAC44481D14A678003A4E57 /* PETSc.framework in Frameworks */,
 				3FAC44461D14A66D003A4E57 /* Accelerate.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -131,7 +127,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3FAC445F1D14B582003A4E57 /* PETSc.framework in Frameworks */,
 				3FAC445E1D14B574003A4E57 /* PETSc.framework in Frameworks */,
 				3FAC445D1D14B569003A4E57 /* Accelerate.framework in Frameworks */,
 			);
@@ -144,7 +139,6 @@
 			isa = PBXGroup;
 			children = (
 				3FAC44491D14A689003A4E57 /* PETSc.framework */,
-				3FAC44471D14A678003A4E57 /* PETSc.framework */,
 				3FAC44451D14A66D003A4E57 /* Accelerate.framework */,
 				3FAC43FC1D14A60C003A4E57 /* input */,
 				3FAC44011D14A60C003A4E57 /* makefile */,
@@ -296,6 +290,7 @@
 				TargetAttributes = {
 					3FAC43F11D14A540003A4E57 = {
 						CreatedOnToolsVersion = 7.3.1;
+						ProvisioningStyle = Automatic;
 					};
 					3FAC444E1D14AE4B003A4E57 = {
 						CreatedOnToolsVersion = 7.3.1;
@@ -303,7 +298,7 @@
 				};
 			};
 			buildConfigurationList = 3FAC43ED1D14A540003A4E57 /* Build configuration list for PBXProject "M4" */;
-			compatibilityVersion = "Xcode 6.3";
+			compatibilityVersion = "Xcode 8.0";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -465,6 +460,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_LINK_OBJC_RUNTIME = NO;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = KB22EGXEQA;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(LOCAL_LIBRARY_DIR)/Frameworks/PETSc-OSX/debug",
@@ -473,8 +471,10 @@
 				GCC_ENABLE_OBJC_EXCEPTIONS = NO;
 				GCC_INPUT_FILETYPE = sourcecode.c.c;
 				HEADER_SEARCH_PATHS = "/Library/Frameworks/PETSc-OSX/debug/PETSc.framework/Headers";
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				PRODUCT_MODULE_NAME = "$(PRODUCT_NAME:c99extidentifier)";
 				PRODUCT_NAME = M4;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
 		};
@@ -482,6 +482,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_LINK_OBJC_RUNTIME = NO;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = KB22EGXEQA;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(LOCAL_LIBRARY_DIR)/Frameworks/PETSc-OSX/debug",
@@ -490,8 +493,10 @@
 				GCC_ENABLE_OBJC_EXCEPTIONS = NO;
 				GCC_INPUT_FILETYPE = sourcecode.c.c;
 				HEADER_SEARCH_PATHS = "/Library/Frameworks/PETSc-OSX/release/PETSc.framework/Headers";
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				PRODUCT_MODULE_NAME = "$(PRODUCT_NAME:c99extidentifier)";
 				PRODUCT_NAME = M4;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
 		};
