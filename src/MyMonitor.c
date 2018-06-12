@@ -35,7 +35,10 @@ PetscErrorCode MyTSMonitor(TS ts,PetscInt step,PetscReal ptime,Vec U,void *ctx)
 	if((istep+step)%vizdstep==0) { // || (step>=9400) ) {
 		ierr = PetscTime(&t1);CHKERRQ(ierr);
 		ierr = PetscPrintf(PETSC_COMM_WORLD,"Elapsed_time=%2.1e\ttimestep %D\tt %2.3e\tdt %2.3e\n",t1-t0,istep+step,ptime*tau,user->dt*tau);CHKERRQ(ierr);
-		
+        
+//        // Trying to track density at center...
+//        PetscPrintf(PETSC_COMM_WORLD,"U[1] = %e\n",U[1]);
+
 		sprintf(fName, "%s/t.out",user->dName);
 		flag = access(fName,W_OK);
 		if (flag==0) fd=fopen(fName,"a");
@@ -49,7 +52,7 @@ PetscErrorCode MyTSMonitor(TS ts,PetscInt step,PetscReal ptime,Vec U,void *ctx)
 		
 		sprintf(fName, "%s/X%d.bin",user->dName,istep+step);
 		ierr = PetscViewerBinaryOpen(PETSC_COMM_WORLD,fName,FILE_MODE_WRITE, &fViewer); CHKERRQ(ierr);
-		ierr = VecView(U,fViewer); CHKERRQ(ierr);
+		ierr = VecView(U,fViewer); CHKERRQ(ierr); // try giving an integer and a long number and array figute out dim u
 		ierr = PetscViewerDestroy(&fViewer); CHKERRQ(ierr);
 		
 		if(xtra_out) {

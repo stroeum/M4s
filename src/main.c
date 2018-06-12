@@ -24,13 +24,25 @@ int main(int argc,char **argv)
 		// For JAR RK method personalization //
 	PetscFunctionList TSSSPList;
 	
-	
+
 	/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	 Initialize program
 	 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 	PetscInitialize(&argc,&argv,PETSC_NULL,help);
 	ierr = InitCtx(&user,&usermonitor);CHKERRQ(ierr);
-	
+    if(user.gravswitch==1)
+        PetscPrintf(PETSC_COMM_WORLD,"\nGravity is ON\n");
+    else
+        PetscPrintf(PETSC_COMM_WORLD,"\nGravity is OFF\n");
+    if(user.chemswitch==1)
+        PetscPrintf(PETSC_COMM_WORLD,"\nChemistry is ON\n");
+    else
+        PetscPrintf(PETSC_COMM_WORLD,"\nChemistry is OFF\n");
+    if(user.collswitch==1)
+        PetscPrintf(PETSC_COMM_WORLD,"Collisions are ON\n\n");
+    else
+        PetscPrintf(PETSC_COMM_WORLD,"Collisions are OFF\n\n");
+        
 	/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	 Create distributed array (DMDA) to manage parallel grid and vectors
 	 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
@@ -54,23 +66,23 @@ int main(int argc,char **argv)
 	ierr = TSSetType(ts,TSSSP);CHKERRQ(ierr);CHKERRQ(ierr);
 	ierr = DMCreateMatrix(user.da,&J);CHKERRQ(ierr);
 	ierr = TSGetSNES(ts,&snes);CHKERRQ(ierr);
-	
+		
 	char version[255];
 	size_t len=255;
 	ierr = PetscGetVersion(version,len);CHKERRQ(ierr);
 	ierr = PetscPrintf(PETSC_COMM_WORLD,"Version = %s\n",version);CHKERRQ(ierr);
-	ierr = PetscFunctionListAdd(&TSSSPList,"rk2jar", (void(*)(void))TSSSPStep_RK_2_JAR);CHKERRQ(ierr);
-	ierr = PetscFunctionListAdd(&TSSSPList,"lw"    , (void(*)(void))TSSSPStep_LW      );CHKERRQ(ierr);
-	ierr = PetscFunctionListAdd(&TSSSPList,"lax"   , (void(*)(void))TSSSPStep_LAX     );CHKERRQ(ierr);
+	//ierr = PetscFunctionListAdd(&TSSSPList,"rk2jar", (void(*)(void))TSSSPStep_RK_2_JAR);CHKERRQ(ierr);
+	//ierr = PetscFunctionListAdd(&TSSSPList,"lw"    , (void(*)(void))TSSSPStep_LW      );CHKERRQ(ierr);
+	//ierr = PetscFunctionListAdd(&TSSSPList,"lax"   , (void(*)(void))TSSSPStep_LAX     );CHKERRQ(ierr);
 	ierr = SNESSetJacobian(snes,J,J,SNESComputeJacobianDefault,(void *)&user);CHKERRQ(ierr);
 	ierr = TSSetProblemType(ts,TS_NONLINEAR);CHKERRQ(ierr);
 	ierr = TSSetRHSFunction(ts,r,FormFunction,(void *)&user);CHKERRQ(ierr);
 	ierr = TSSetApplicationContext(ts,(void *)&user);CHKERRQ(ierr);
-	
+
 	ierr = TSSetMaxSteps(ts,user.maxsteps);CHKERRQ(ierr);
 	ierr = TSSetMaxTime(ts,user.tf);CHKERRQ(ierr);
 	ierr = TSSetExactFinalTime(ts,TS_EXACTFINALTIME_STEPOVER);CHKERRQ(ierr);
-	ierr = TSMonitorSet(ts,MyTSMonitor,&user,PETSC_NULL);CHKERRQ(ierr);
+	ierr = TSMonitorSet(ts,MyTSMonitor,&user,PETSC_NULL);CHKERRQ(ierr);         // Tracks data and writes it (MyTSMonitor()) to binary at preset timesteps
 	
 	/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	 Set initial conditions

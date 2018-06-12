@@ -282,8 +282,17 @@ PetscErrorCode InitCtx(AppCtx *user, MonitorCtx *usrmnt)
 	ierr = PetscOptionsGetReal(PETSC_NULL,PETSC_NULL,"-ts_init_time",&user->ti,PETSC_NULL);CHKERRQ(ierr);
 	user->tf = 1.0;
 	ierr = PetscOptionsGetReal(PETSC_NULL,PETSC_NULL,"-ts_max_time",&user->tf,PETSC_NULL);CHKERRQ(ierr);
-	
-	
+    
+    user->chemswitch = 0;
+    ierr = PetscOptionsGetInt(PETSC_NULL,PETSC_NULL,"-chem_switch",&user->chemswitch,PETSC_NULL);CHKERRQ(ierr);
+    user->collswitch = 0;
+    ierr = PetscOptionsGetInt(PETSC_NULL,PETSC_NULL,"-coll_switch",&user->collswitch,PETSC_NULL);CHKERRQ(ierr);
+    user->gravswitch = 0;
+    ierr = PetscOptionsGetInt(PETSC_NULL,PETSC_NULL,"-grav_switch",&user->gravswitch,PETSC_NULL);CHKERRQ(ierr);
+    
+    user->dt = 1.0e-9;
+    ierr = PetscOptionsGetReal(PETSC_NULL,PETSC_NULL,"-dt",&user->dt,PETSC_NULL);CHKERRQ(ierr);
+        
 	if(user->viz_dstep<=0 || (PetscInt)(user->viz_dstep)!=user->viz_dstep){
 		PetscPrintf(PETSC_COMM_WORLD,"ERROR: Invalid value of viz_dstep: viz_dstep=1");
 		user->viz_dstep = 1;
@@ -371,7 +380,7 @@ PetscErrorCode InitCtx(AppCtx *user, MonitorCtx *usrmnt)
 	user->B0  = user->me/(qe*user->tau);
 	
 	/* dt = min(dt,CFL) */
-	user->dt    = 1.0e-9/user->tau;
+    user->dt    = user->dt/user->tau;     // Initial time step (need to write this in main.in)
 	user->eps.n = 1.0e3/user->n0; // min density allowed in the domain: 10^-3 cm-3 = 1e3 m^-3
 	user->eps.p = 1e-15/user->p0; // min pressure allowed in the domain
 	user->eps.v = .01*299742458/user->v0; // MAX velocity allowed in the domain: 1% of the speed of light
@@ -465,30 +474,30 @@ PetscErrorCode InitCtx(AppCtx *user, MonitorCtx *usrmnt)
 PetscErrorCode OutputData(void* ptr)
 {
 	PetscErrorCode ierr;
-	AppCtx         *user = (AppCtx*)ptr;
+	AppCtx         *user    = (AppCtx*)ptr;
 		//PetscInt       istep=user->istep;
 	PetscInt       maxsteps = user->maxsteps;
 	PetscInt       vizdstep = user->viz_dstep;
 	PetscBool      xtra_out = user->xtra_out;
-	PetscReal      Xmin = user->outXmin, Ymin = user->outYmin, Zmin = user->outZmin;
-	PetscReal      n0 = user->n0, v0 = user->v0, p0 = user->p0, B0 = user->B0;
-	PetscReal      *x = user->x, *y = user->y, *z = user->z;
-	PetscReal      DX, DY,DZ,DV;
-	PetscInt       mx = user->mx, my = user->my, mz = user->mz;
-	DM             da = user->da;
-	DM             db = user->db;
-	PetscReal      L = user->L;
+	PetscReal      Xmin     = user->outXmin, Ymin = user->outYmin, Zmin = user->outZmin;
+	PetscReal      n0       = user->n0, v0 = user->v0, p0 = user->p0, B0 = user->B0;
+	PetscReal      *x       = user->x, *y = user->y, *z = user->z;
+	PetscReal      DX,DY,DZ,DV;
+	PetscInt       mx       = user->mx, my = user->my, mz = user->mz;
+	DM             da       = user->da;
+	DM             db       = user->db;
+	PetscReal      L        = user->L;
 	float          t;
-	dvi            d = user->d;
-	svi            s = user->s;
-	PetscReal      vizbox[6] = {
+	dvi            d        = user->d;
+	svi            s        = user->s;
+	PetscReal      vizbox[6]= {
 		user->vizbox[0],user->vizbox[1],
 		user->vizbox[2],user->vizbox[3],
 		user->vizbox[4],user->vizbox[5]
 	};
 	
-	Vec            U = NULL;
-	Vec            V = NULL;
+	Vec            U        = NULL;
+	Vec            V        = NULL;
 	PetscReal      ****u,****v = NULL;
 	FILE           *pFile,*nFile,*tFile,*NFile;
 	char           fName[PETSC_MAX_PATH_LEN];
@@ -527,7 +536,7 @@ PetscErrorCode OutputData(void* ptr)
 	else         NFile = fopen(fName,"w");
 	ierr = PetscFPrintf(PETSC_COMM_WORLD,NFile,"Z (m)       \tn.O2+  (m-3)\tn.CO2+ (m-3)\tn.O+   (m-3)\tn.e    (m-3)\n");CHKERRQ(ierr);
 	
-	tFile = fopen("output/t.out","r");
+	tFile = fopen("../output/t.out","r");
 	
 		// Get local grid boundaries //
 	ierr = DMDAGetCorners(da,&xs,&ys,&zs,&xm,&ym,&zm);CHKERRQ(ierr);
@@ -613,11 +622,13 @@ PetscErrorCode OutputData(void* ptr)
 									if (k<kmin) kmin = k;
 									if (k>kmax) kmax = k;
 									
+                                        // Write electron density (ne) to .dat //
 									if(xtra_out) {
 										ne = (u[k][j][i][d.ni[O2p]]+u[k][j][i][d.ni[CO2p]]+u[k][j][i][d.ni[Op]])*n0;
 										Ne+= ne*DV;
 										ierr = PetscFPrintf(PETSC_COMM_WORLD,pFile,"%12.6e\t",ne);CHKERRQ(ierr);
 									}
+                                        // Write ion density (nO2p,nCO2p,nOp) to .dat //
 									for (l=0; l<3; l++) {
 										ni[l] = u[k][j][i][d.ni[l]]*n0;
 										Ni[l]+= ni[l]*DV;
@@ -635,34 +646,42 @@ PetscErrorCode OutputData(void* ptr)
 									}
 										// End of Additional output //
 									
+                                        // Write electron velocity (ve_x,ve_y,ve_z) //
 									if(xtra_out) {
 										for (m=0; m<3; m++) {
 											ve[m] = v[k][j][i][s.ve[m]]*v0;
 											ierr = PetscFPrintf(PETSC_COMM_WORLD,pFile,"%12.6e\t",ve[m]);CHKERRQ(ierr);
 										}
 									}
+                                        // Write ion velocity (vO2px,vO2py,vO2pz,vCO2px,vCO2py,vCO2pz,vOpx,vOpy,vOpz) //
 									for (l=0; l<3; l++) {
 										for (m=0; m<3; m++) {
 											vi[l][m] = u[k][j][i][d.vi[l][m]]*v0;
 											ierr = PetscFPrintf(PETSC_COMM_WORLD,pFile,"%12.6e\t",vi[l][m]);CHKERRQ(ierr);
 										}
 									}
+                                        // Write electron pressure (pe) //
 									pe = u[k][j][i][d.pe]*p0;
 									ierr = PetscFPrintf(PETSC_COMM_WORLD,pFile,"%12.6e\t",pe);CHKERRQ(ierr);
+                                    
+                                        // Write ion pressure (pO2p,pCO2p,pOp) //
 									for (l=0; l<3; l++) {
 										pi[l] = u[k][j][i][d.pi[l]]*p0;
 										ierr = PetscFPrintf(PETSC_COMM_WORLD,pFile,"%12.6e\t",pi[l]);CHKERRQ(ierr);
 									}
 									if(xtra_out) {
+                                        // Write current density (Jx,Jy,Jz) //
 										for (m=0; m<3; m++){
 											J[m] = v[k][j][i][s.J[m]]*qe*n0*v0;
 											ierr = PetscFPrintf(PETSC_COMM_WORLD,pFile,"%12.6e\t",J[m]);CHKERRQ(ierr);
 										}
+                                        // Write current density (Ex,Ey,Ez) //
 										for (m=0; m<3; m++){
 											E[m] = v[k][j][i][s.E[m]]*v0*B0;
 											ierr = PetscFPrintf(PETSC_COMM_WORLD,pFile,"%12.6e\t",E[m]);CHKERRQ(ierr);
 										}
 									}
+                                        // Write current density (Bx,By,Bz) //
 									for (m=0; m<3; m++){
 										B[m] = u[k][j][i][d.B[m]]*B0;
 										ierr = PetscFPrintf(PETSC_COMM_WORLD,pFile,"%12.6e\t",B[m]);CHKERRQ(ierr);
@@ -687,7 +706,7 @@ PetscErrorCode OutputData(void* ptr)
 			 m = MPI_Allreduce(MPI_IN_PLACE,&kmin,1,MPIU_INT,MPIU_MIN,PETSC_COMM_WORLD);
 			 m = MPI_Allreduce(MPI_IN_PLACE,&kmax,1,MPIU_INT,MPIU_MAX,PETSC_COMM_WORLD);
 			 */
-			
+			/*
 				// Calculate the flows through the boundaries of the PLOTTED domain //
 			PetscReal Ve = 0.0;
 			for (m=0; m<6; m++) {
@@ -791,7 +810,7 @@ PetscErrorCode OutputData(void* ptr)
 					Fe[4] -= ne*Ve * n0*v0 * DX*DY;
 					
 						// T-flow //
-					/*k = mz-1;*/
+					//k = mz-1;
 					k = kTop;
 					ne = 0.0;
 					for (l=0; l<3; l++) {
@@ -802,7 +821,7 @@ PetscErrorCode OutputData(void* ptr)
 					Fe[5] += ne*Ve * n0*v0 * DX*DY;
 				}
 			}
-			
+			*/
 			
 				// Summing subdomain values //
 				// The next lines are useless since the conversion is single-proc //
@@ -814,6 +833,7 @@ PetscErrorCode OutputData(void* ptr)
 			 */
 			
 				// Fill the diagnotics.dat file //
+            /*
 			ierr = PetscFPrintf(PETSC_COMM_WORLD,nFile,"%12.6e\t",t);CHKERRQ(ierr);
 			for (l=0; l<3; l++) {
 				ierr = PetscFPrintf(PETSC_COMM_WORLD,nFile,"%12.6e\t",Ni[l]);CHKERRQ(ierr);
@@ -826,7 +846,7 @@ PetscErrorCode OutputData(void* ptr)
 				ierr = PetscFPrintf(PETSC_COMM_WORLD,nFile,"%12.6e\t",Fe[m]);CHKERRQ(ierr);
 			}
 			ierr = PetscFPrintf(PETSC_COMM_WORLD,nFile,"\n");CHKERRQ(ierr);
-			
+			*/
 				// Create the X.general file // 
 			sprintf(fName,"%s/X%d.general",user->vName,step);
 			flag  = access(fName,W_OK);

@@ -5,11 +5,13 @@
 	<key>BuildLocationStyle</key>
 	<string>CustomLocation</string>
 	<key>CustomBuildIntermediatesPath</key>
-	<string>build</string>
+	<string>../build</string>
 	<key>CustomBuildLocationType</key>
 	<string>RelativeToDerivedData</string>
 	<key>CustomBuildProductsPath</key>
-	<string>bin</string>
+	<string>../bin</string>
+	<key>CustomIndexStorePath</key>
+	<string>Index/DataStore</string>
 	<key>DerivedDataLocationStyle</key>
 	<string>Default</string>
 	<key>EnabledFullIndexStoreVisibility</key>
