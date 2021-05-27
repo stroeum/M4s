@@ -8,9 +8,9 @@ To run, use:
 
 	1.  make clean_data
 	2.  make all
-	3. "make in=<input> run"
+	3. "make in=<input> out=<output> run"
 	
-	where <input> is the name of the input file located in ./input/ (or, "make run" defaults to use ./input/main.in)
+	where <input> and <output> are optional arguments. input defaults to main.in, output defaults to stdout.
 
 The makefile function "run" must be tailored to the specific computer. If hyperthreading is supported, the rankfile must also be tailored.
 
