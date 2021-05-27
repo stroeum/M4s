@@ -36,9 +36,32 @@ all: $(TARGET1)
 
 run:
 ifdef in
+ifdef out
+	mpiexec -np 12 -H localhost -rf ./rankfile $(TARGET1) -options_file ./input/$(in) > ./output/$(out)
+else
 	mpiexec -np 12 -H localhost -rf ./rankfile $(TARGET1) -options_file ./input/$(in)
+endif
+else
+ifdef out
+	mpiexec -np 12 -H localhost -rf ./rankfile $(TARGET1) -options_file ./input/main.in > ./output/$(out)
 else
 	mpiexec -np 12 -H localhost -rf ./rankfile $(TARGET1) -options_file ./input/main.in
+endif
+endif
+
+test:
+ifdef in
+ifdef out
+	@echo "both"
+else
+	@echo "in"
+endif
+else
+ifdef out
+	@echo "out"
+else
+	@echo "neither"
+endif
 endif
 
 $(TARGET1): $(OBJECTS1)
