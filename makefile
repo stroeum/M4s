@@ -35,7 +35,11 @@ all: $(TARGET1)
 	@echo "main objs: $(OBJECTS1)"
 
 run:
+ifdef in
+	mpiexec -np 12 -H localhost -rf ./rankfile $(TARGET1) -options_file ./input/$(in)
+else
 	mpiexec -np 12 -H localhost -rf ./rankfile $(TARGET1) -options_file ./input/main.in
+endif
 
 $(TARGET1): $(OBJECTS1)
 	@mkdir -p $(TARGETDIR)
