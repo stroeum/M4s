@@ -1,0 +1,12 @@
+bin/
+build/
+output/
+SaveData/
+
+*.bin
+*.txt
+*.log
+*.out
+*.o
+
+.DS_Store
