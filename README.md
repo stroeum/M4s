@@ -8,7 +8,7 @@ To run, use:
 
 	1.  make clean_data
 	2.  make all
-	3. "make in=<input> out=<output> run"
+	3.  make in=<input> out=<output> run
 	
 	where <input> and <output> are optional arguments. input defaults to main.in, output defaults to stdout.
 
