@@ -1,6 +1,4 @@
 #!/bin/bash
-PETSC_DIR = /usr/lib/petsc
-#PETSC_ARCH = arch-darwin-c-debug
 include $(PETSC_DIR)/lib/petsc/conf/variables
 include $(PETSC_DIR)/lib/petsc/conf/rules
 
@@ -23,7 +21,7 @@ COMPILER = mpicc
 LIB := \
  	-lpetsc -lmpi -lm -ldl -lc \
 	-L$(PETSC_DIR)/lib
- #-static-libgcc
+ 	#-static-libgcc
 
 INCLUDE := \
 	-Iinclude/ \
