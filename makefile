@@ -1,4 +1,5 @@
 #!/bin/bash
+
 include $(PETSC_DIR)/lib/petsc/conf/variables
 include $(PETSC_DIR)/lib/petsc/conf/rules
 
@@ -15,7 +16,7 @@ SRCEXT := c
 SOURCES1 := $(wildcard $(SRCDIR)/*.$(SRCEXT))
 OBJECTS1 := $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(SOURCES1:.$(SRCEXT)=.o))
 
-CFLAGS := -g -Wall -m64 -Os -Wwrite-strings -Wmissing-declarations -Wuninitialized
+CFLAGS := -g -w -m64 -Os -Wwrite-strings -Wmissing-declarations -Wuninitialized
 COMPILER = mpicc
 
 LIB := \
@@ -35,15 +36,15 @@ all: $(TARGET1)
 run:
 ifdef in
 ifdef out
-	mpiexec -np 2 -H localhost -rf ./rankfile $(TARGET1) -options_file ./input/$(in) > ./output/$(out)
+	mpiexec -np 12 -H localhost -rf ./rankfile $(TARGET1) -options_file ./input/$(in) > ./output/$(out)
 else
-	mpiexec -np 2 -H localhost -rf ./rankfile $(TARGET1) -options_file ./input/$(in)
+	mpiexec -np 12 -H localhost -rf ./rankfile $(TARGET1) -options_file ./input/$(in)
 endif
 else
 ifdef out
-	mpiexec -np 2 -H localhost -rf ./rankfile $(TARGET1) -options_file ./input/main.in > ./output/$(out)
+	mpiexec -np 12 -H localhost -rf ./rankfile $(TARGET1) -options_file ./input/main.in > ./output/$(out)
 else
-	mpiexec -np 2 -H localhost -rf ./rankfile $(TARGET1) -options_file ./input/main.in
+	mpiexec -np 12 -H localhost -rf ./rankfile $(TARGET1) -options_file ./input/main.in
 endif
 endif
 
