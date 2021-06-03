@@ -10,8 +10,6 @@ Make sure that in your ~/.bashrc you are exporting the proper PETSC_DIR and PETS
 
 The makefile function "run" must be tailored to the specific computer. If hyperthreading is supported, the rankfile must also be tailored.
 
-Make sure the mpirun/mpiexec command is run from the root directory. The files that affect the running location are the input file (output and viz_dir directories), in myctx.c, and in the makefile
-
 
 ## Commands to run
 
@@ -24,3 +22,19 @@ Make sure the mpirun/mpiexec command is run from the root directory. The files t
 	1. sbatch start.job
 
 
+## Debugging information
+
+Seg faults:
+	Most likely due to hardcoded directory pointing to the wrong place.
+	The output, bin, and build directories must exist prior to running the mpiexec
+	The input file, myctx.c, and the makefile contain hardcoded directory pointers, test these.
+	This also depends where the program is being run from. Should be /M4s, not /M4s/bin
+
+btl_tcp error on BlueShark:
+	This occurs when the program is attempting to run on >1 node. You need to add command-line arguments to mpiexec that look similar to
+	-mca btl_tcp_if_include eno1 -mca btl tcp,self
+	The eno1 can be located using the ifconfig command. Beyond this, I don't know much about the error
+
+Problem during Linking as part of "make all"
+	May need to link a library using "sudo ln -s <library you do have> <library it's looking for and failing to find>
+	Ex: sudo ln -s /usr/lib/python3 /usr/lib/python
