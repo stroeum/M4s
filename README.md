@@ -5,17 +5,22 @@ Updated M4s by Kellen in 2021.
 
 ## Before running
 Make sure that in your ~/.bashrc you are exporting the proper PETSC_DIR and PETSC_ARCH
-	Locally: petsc_dir ~= /usr/lib/petsc-<version>  and  petsc_arch ~= arch-linux-c-debug
-	Blueshark: petsc_dir ~= export/spack/linux-centos7-x86_64/gcc-9.1.0/petsc-...
 
-The makefile function "run" must be tailored to the specific computer. If hyperthreading is supported, the rankfile must also be tailored.
+	Locally:
+		petsc_dir ~= /usr/lib/petsc-<version>
+		petsc_arch ~= arch-linux-c-debug
 
+	Blueshark:
+		petsc_dir ~= export/spack/linux-centos7-x86_64/gcc-9.1.0/petsc-...
+
+
+makefile.local must be tailored to the specific computer being used. (And rankfile if hyperthreading)
 
 ## Commands to run
 
-	1.  make clean_data
-	2.  make all
-	3.  make in=<input> out=<output> run
+	1.  make -f makefile.local clean_data
+	2.  make -f makefile.local all
+	3.  make -f makefile.local in=<input> out=<output> run
 	where <input> and <output> are optional arguments. input defaults to main.in, output defaults to stdout.
 
 	Or, if on blueshark
@@ -23,6 +28,9 @@ The makefile function "run" must be tailored to the specific computer. If hypert
 
 
 ## Debugging information
+
+Output directory must exist and must be manually created if it does not already exist!
+(This should be changed in the future, such that the program automatically creates the directory if it does not already exist)
 
 Seg faults:
 	Most likely due to hardcoded directory pointing to the wrong place.
