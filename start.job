@@ -22,6 +22,6 @@ echo "execution folder: M4s/"
 echo "execution file  : M4s/bin/M4"
 echo "================================================"
 
-make clean_data
-make all
-make in=main.in out=out.txt run
+make -f makefile.bs clean_data
+make -f makefile.bs all
+make -f makefile.bs in=main.in out=out.txt run

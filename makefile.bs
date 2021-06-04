@@ -1,5 +1,5 @@
 #!/bin/bash
-
+PETSC_DIR = /export/spack/linux-centos7-x86_64/gcc-9.1.0/petsc-3.11.2-p2dxnq2voitsys7nkmrukhws5z3wlbm2
 include $(PETSC_DIR)/lib/petsc/conf/variables
 include $(PETSC_DIR)/lib/petsc/conf/rules
 
@@ -7,9 +7,6 @@ SRCDIR := src
 BUILDDIR := build
 TARGETDIR := bin
 TARGET1 := $(TARGETDIR)/M4
-
-#.DEFAULT_GOAL := all
-#.PHONY := clean
 
 SRCEXT := c
 
@@ -22,12 +19,10 @@ COMPILER = mpicc
 LIB := \
  	-lpetsc -lmpi -lm -ldl -lc \
 	-L$(PETSC_DIR)/lib
- 	#-static-libgcc
 
 INCLUDE := \
 	-Iinclude/ \
 	-I$(PETSC_DIR)/include
-	#-I$(PETSC_DIR)/$(PETSC_ARCH)/include 
 
 all: $(TARGET1)
 	@echo "main srcs: $(SOURCES1)"
@@ -36,15 +31,15 @@ all: $(TARGET1)
 run:
 ifdef in
 ifdef out
-	mpiexec -np 12 -H localhost -rf ./rankfile $(TARGET1) -options_file ./input/$(in) > ./output/$(out)
+	mpiexec $(TARGET1) -mca btl_tcp_if_include eno1 -mca btl tcp,self -options_file ./input/$(in) > ./output/$(out)
 else
-	mpiexec -np 12 -H localhost -rf ./rankfile $(TARGET1) -options_file ./input/$(in)
+	mpiexec $(TARGET1) -mca btl_tcp_if_include eno1 -mca btl tcp,self -options_file ./input/$(in)
 endif
 else
 ifdef out
-	mpiexec -np 12 -H localhost -rf ./rankfile $(TARGET1) -options_file ./input/main.in > ./output/$(out)
+	mpiexec $(TARGET1) -mca btl_tcp_if_include eno1 -mca btl tcp,self -options_file ./input/main.in > ./output/$(out)
 else
-	mpiexec -np 12 -H localhost -rf ./rankfile $(TARGET1) -options_file ./input/main.in
+	mpiexec $(TARGET1) -mca btl_tcp_if_include eno1 -mca btl tcp,self -options_file ./input/main.in
 endif
 endif
 
