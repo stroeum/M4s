@@ -5,7 +5,7 @@
 #-visualization_folder ../viz_dir		//Changed by Kellen so that the program is run from parent directory, not M4s/bin
 #-input_file X2900000.bin
 #
--bc_type 10 # 0: 1st order Neumann, 1: 2nd order Neumann, 2: zero'ed 2nd derivatives, 3: Non-symmetric "exact" solution, 10: combination of df/dn=0 amd d2f/dn2=0
+-bc_type 0 # 0: 1st order Neumann, 1: 2nd order Neumann, 2: zero'ed 2nd derivatives, 3: Non-symmetric "exact" solution, 10: combination of df/dn=0 amd d2f/dn2=0
 -limiters
 #-blockers
 #-smoothing
@@ -70,12 +70,12 @@
 #-Damping_scaleheight 10.0e3 #_m
 
 #Visualization parameters
--vizbox_x_min -1000.0e+3  #_m
--vizbox_x_max 1000.0e+3   #_m
--vizbox_y_min -500.0e+3   #_m
--vizbox_y_max 500.0e+3    #_m
--vizbox_z_min 0.0e+3      #_m
--vizbox_z_max 1000.0e+3   #_m
+#-vizbox_x_min -1000.0e+3  #_m
+#-vizbox_x_max 1000.0e+3   #_m
+#-vizbox_y_min -500.0e+3   #_m
+#-vizbox_y_max 500.0e+3    #_m
+#-vizbox_z_min 0.0e+3      #_m
+#-vizbox_z_max 1000.0e+3   #_m
 
 #Chemistry
 -chem_switch 1           # 1: chemistry off, 1: chemistry on

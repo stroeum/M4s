@@ -260,12 +260,14 @@ PetscErrorCode InitCtx(AppCtx *user, MonitorCtx *usrmnt)
 	if(user->outZmin >= user->inZmin) user->outZmin = user->inZmin;
 	if(user->outZmax <= user->inZmax) user->outZmax = user->inZmax;
 	
+	/* Commented by Kellen to remove vizbox
 	ierr = PetscOptionsGetReal(PETSC_NULL,PETSC_NULL,"-vizbox_x_min",&user->vizbox[0],PETSC_NULL);CHKERRQ(ierr);
 	ierr = PetscOptionsGetReal(PETSC_NULL,PETSC_NULL,"-vizbox_x_max",&user->vizbox[1],PETSC_NULL);CHKERRQ(ierr);
 	ierr = PetscOptionsGetReal(PETSC_NULL,PETSC_NULL,"-vizbox_y_min",&user->vizbox[2],PETSC_NULL);CHKERRQ(ierr);
 	ierr = PetscOptionsGetReal(PETSC_NULL,PETSC_NULL,"-vizbox_y_max",&user->vizbox[3],PETSC_NULL);CHKERRQ(ierr);
 	ierr = PetscOptionsGetReal(PETSC_NULL,PETSC_NULL,"-vizbox_z_min",&user->vizbox[4],PETSC_NULL);CHKERRQ(ierr);
 	ierr = PetscOptionsGetReal(PETSC_NULL,PETSC_NULL,"-vizbox_z_max",&user->vizbox[5],PETSC_NULL);CHKERRQ(ierr);
+	*/
 	
 	user->viz_dstep = 0;
 	ierr = PetscOptionsGetInt(PETSC_NULL,PETSC_NULL,"-viz_dstep",&user->viz_dstep,PETSC_NULL);CHKERRQ(ierr);
@@ -436,6 +438,7 @@ PetscErrorCode InitCtx(AppCtx *user, MonitorCtx *usrmnt)
 	
 		//for (i=0; i<6; i++) PetscPrintf(PETSC_COMM_WORLD,"outer box dim %d = %f\n", i, user->vizbox[i]);
 	
+	/* Commented by Kellen to remove vizbox
 	if(user->vizbox[0]<user->outXmin || user->vizbox[1]>user->outXmax || user->vizbox[2]<user->outYmin || user->vizbox[3]>user->outYmax || user->vizbox[4]<user->outZmin || user->vizbox[5]>user->outZmax){
 		PetscPrintf(PETSC_COMM_WORLD,"WARNING: Visualization area greater than simulation domain:\n---> the vizualization box is adjusted to fit the maximum dimension of the simulation domain.\n");
 		if (user->vizbox[0]<user->outXmin) user->vizbox[0] = user->outXmin;
@@ -445,6 +448,7 @@ PetscErrorCode InitCtx(AppCtx *user, MonitorCtx *usrmnt)
 		if (user->vizbox[4]<user->outZmin) user->vizbox[4] = user->outZmin;
 		if (user->vizbox[5]>user->outZmax) user->vizbox[5] = user->outZmax;
 	}
+	*/
 	
 		// Read input files //
 	if(rank==0) {
@@ -492,11 +496,13 @@ PetscErrorCode OutputData(void* ptr)
 	float          t;
 	dvi            d        = user->d;
 	svi            s        = user->s;
+	/* Commented by Kellen to remove vizbox
 	PetscReal      vizbox[6]= {
 		user->vizbox[0],user->vizbox[1],
 		user->vizbox[2],user->vizbox[3],
 		user->vizbox[4],user->vizbox[5]
 	};
+	*/
 	
 	Vec            U        = NULL;
 	Vec            V        = NULL;
@@ -515,7 +521,9 @@ PetscErrorCode OutputData(void* ptr)
 	
 	MPI_Comm_rank(PETSC_COMM_WORLD,&rank);
 	
+	/* Commented by Kellen to remove vizbox
 	PetscPrintf(PETSC_COMM_WORLD,"box: [%2.1f,%2.1f,%2.1f] to [%2.1f,%2.1f,%2.1f] (km)\n",vizbox[0]/1e3,vizbox[2]/1e3,vizbox[4]/1e3,vizbox[1]/1e3,vizbox[3]/1e3,vizbox[5]/1e3);
+	*/
 	
 		// Store total number of charge carriers in a file named diagnotics.dat //
 	int kTop=0;
