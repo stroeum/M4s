@@ -462,7 +462,7 @@ PetscErrorCode InitCtx(AppCtx *user, MonitorCtx *usrmnt)
 	MPI_Bcast(&(user->RefPart[0][0]),     4*Nz_REF, MPIU_REAL, 0, PETSC_COMM_WORLD);
 	
 		// Display diagnostics //
-	PetscPrintf(PETSC_COMM_WORLD,"mx = [%i %i %i]:%i\nmy = [%i %i %i]:%i\nmz = [%i %i %i]:%i\n",mx_lo,mx_in,mx_hi,user->mx, my_lo,my_in,my_hi,user->my, mz_lo,mz_in,mz_hi,user->mz); 
+	PetscPrintf(PETSC_COMM_WORLD,"\nmx = [%i %i %i]:%i\nmy = [%i %i %i]:%i\nmz = [%i %i %i]:%i\n\n",mx_lo,mx_in,mx_hi,user->mx, my_lo,my_in,my_hi,user->my, mz_lo,mz_in,mz_hi,user->mz); 
 	PetscPrintf(PETSC_COMM_WORLD,"      O2+\t\tCO2+\t\tO+\t\te\n");
 	PetscPrintf(PETSC_COMM_WORLD,"m   = [%12.6e\t%12.6e\t%12.6e\t%12.6e]\n",user->mi[0],user->mi[1],user->mi[2],user->me);
 	PetscPrintf(PETSC_COMM_WORLD,"v0  = [%12.6e]\n",user->v0);

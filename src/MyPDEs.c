@@ -50,7 +50,7 @@ PetscErrorCode FormInitialSolution(Vec U, void* ctx)
 	PetscBool      flag;
 	
 	PetscFunctionBegin;
-	PetscPrintf(PETSC_COMM_WORLD,"Form Initial Conditions: ...\n");
+	PetscPrintf(PETSC_COMM_WORLD,"\nForm Initial Conditions: ...\n");
 	MPI_Comm_rank(PETSC_COMM_WORLD,&rank);
 	Lz = user->outZmax-user->inZmin;
 	if (user->isInputFile) {

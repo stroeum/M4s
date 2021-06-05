@@ -2,21 +2,20 @@
 
 #SBATCH --job-name M42
 #SBATCH --nodes 1
-#SBATCH --ntasks-per-node 12
+#SBATCH --ntasks-per-node 2
 #SBATCH --mem-per-cpu=3G
 #SBATCH --time=00:00:15
 #SBATCH --partition=short
 #SBATCH --error=M4_%J.err
 #SBATCH --output=M4_%J.out
 
-##PBS -q normalq
 module load petsc/3.11.2
 module load openmpi/3.1.4
 module load hdf5/1.10.5
 
 echo "================================================"
 echo "Time is         : `date`"
-echo "Job ID is       : %J"
+echo "Job ID is       : "$SLURM_JOBID
 echo "execution folder: M4s/"
 echo "execution file  : M4s/bin/M4"
 echo "================================================"
