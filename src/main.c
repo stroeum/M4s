@@ -28,8 +28,9 @@ int main(int argc,char **argv)
 	
 	char cwd[PATH_MAX];
 	if (getcwd(cwd, sizeof(cwd)) != NULL) {
-		PetscPrintf(PETSC_COMM_WORLD,"Current working dir: %s\n", cwd);
+		// Changed by Kellen to make it only print one per execution, not once per task/process
 		//printf("Current working dir: %s\n", cwd);
+		PetscPrintf(PETSC_COMM_WORLD,"Current working dir: %s\n", cwd);
 	} else {
 		perror("getcwd() error");
 		return 1;
