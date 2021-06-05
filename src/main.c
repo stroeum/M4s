@@ -23,20 +23,21 @@ int main(int argc,char **argv)
 	AppCtx         user;
 		// For JAR RK method personalization //
 	PetscFunctionList TSSSPList;
+
+	PetscInitialize(&argc,&argv,PETSC_NULL,help);
 	
 	char cwd[PATH_MAX];
 	if (getcwd(cwd, sizeof(cwd)) != NULL) {
-		printf("Current working dir: %s\n", cwd);
+		PetscPrintf(PETSC_COMM_WORLD,"Current working dir: %s\n", cwd);
+		//printf("Current working dir: %s\n", cwd);
 	} else {
 		perror("getcwd() error");
 		return 1;
 	}
-	
 
 	/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	 Initialize program
 	 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
-	PetscInitialize(&argc,&argv,PETSC_NULL,help);
 	ierr = InitCtx(&user,&usermonitor);CHKERRQ(ierr);
     if(user.gravswitch==1)
         PetscPrintf(PETSC_COMM_WORLD,"\nGravity\t\t= ON\n");
