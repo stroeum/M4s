@@ -30,17 +30,21 @@ all: $(TARGET1)
 
 run:
 ifdef in
-ifdef out
-	mpiexec $(TARGET1) -mca btl_tcp_if_include eno1 -mca btl tcp,self -options_file ./input/$(in) > ./output/$(out)
+	mpiexec $(TARGET1) -mca btl_tcp_if_include eno1 -mca btl tcp,self -options_file ./input/$(in) > ./output/out.txt
 else
-	mpiexec $(TARGET1) -mca btl_tcp_if_include eno1 -mca btl tcp,self -options_file ./input/$(in)
+	mpiexec $(TARGET1) -mca btl_tcp_if_include eno1 -mca btl tcp,self -options_file ./input/main.in > ./output/out.txt
 endif
+
+save_data:
+ifdef n
+	if [ ! -d "SaveData" ]; then \
+		mkdir SaveData; \
+	fi
+	mkdir ./SaveData/$(n)_save
+	cp ./output/* ./SaveData/$(n)_save/
+	cp ./input/main.in ./SaveData/$(n)_save/
 else
-ifdef out
-	mpiexec $(TARGET1) -mca btl_tcp_if_include eno1 -mca btl tcp,self -options_file ./input/main.in > ./output/$(out)
-else
-	mpiexec $(TARGET1) -mca btl_tcp_if_include eno1 -mca btl tcp,self -options_file ./input/main.in
-endif
+	@echo "You must provide a directory name n=<...>"
 endif
 
 $(TARGET1): $(OBJECTS1)

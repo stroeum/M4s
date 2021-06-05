@@ -22,4 +22,4 @@ echo "================================================"
 
 make -f makefile.bs clean_data
 make -f makefile.bs all
-make -f makefile.bs in=main.in out=out.txt run
+make -f makefile.bs in=main.in run

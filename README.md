@@ -20,8 +20,11 @@ makefile.local must be tailored to the specific computer being used. (And rankfi
 
 	1.  make -f makefile.local clean_data
 	2.  make -f makefile.local all
-	3.  make -f makefile.local in=<input> out=<output> run
-	where <input> and <output> are optional arguments. input defaults to main.in, output defaults to stdout.
+	3.  make -f makefile.local in=<input> run
+	where <input> is an optional argument. Defaults to main.in.
+	4. Optional: Can save data with
+	    make -f makefile.<xxx> n=<directory> save_data
+	<xxx> is local or bs. <directory> will be put inside of ./SaveData/
 
 	Or, if on blueshark
 	1. sbatch start.job

@@ -30,17 +30,21 @@ all: $(TARGET1)
 
 run:
 ifdef in
-ifdef out
-	mpiexec -np 12 -H localhost -rf ./rankfile $(TARGET1) -options_file ./input/$(in) | tee ./output/$(out)
+	mpiexec -np 12 -H localhost -rf ./rankfile $(TARGET1) -options_file ./input/$(in) | tee ./output/out.txt
 else
-	mpiexec -np 12 -H localhost -rf ./rankfile $(TARGET1) -options_file ./input/$(in)
+	mpiexec -np 12 -H localhost -rf ./rankfile $(TARGET1) -options_file ./input/main.in | tee ./output/out.txt
 endif
+
+save_data:
+ifdef n
+	if [ ! -d "SaveData" ]; then \
+		mkdir SaveData; \
+	fi
+	mkdir ./SaveData/$(n)_save
+	cp ./output/* ./SaveData/$(n)_save/
+	cp ./input/main.in ./SaveData/$(n)_save/
 else
-ifdef out
-	mpiexec -np 12 -H localhost -rf ./rankfile $(TARGET1) -options_file ./input/main.in | tee ./output/$(out)
-else
-	mpiexec -np 12 -H localhost -rf ./rankfile $(TARGET1) -options_file ./input/main.in
-endif
+	@echo "You must provide a directory name n=<...>"
 endif
 
 $(TARGET1): $(OBJECTS1)
