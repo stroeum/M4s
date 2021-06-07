@@ -4,27 +4,25 @@ Updated M4s by Kellen in 2021.
 
 
 ## Before running
-Make sure that in your ~/.bashrc you are exporting the proper PETSC_DIR and PETSC_ARCH
+Make sure that in your ~/.bashrc you are exporting the proper PETSC_DIR
 
 	Locally:
 		petsc_dir ~= /usr/lib/petsc-<version>
-		petsc_arch ~= arch-linux-c-debug
 
 	Blueshark:
 		petsc_dir ~= export/spack/linux-centos7-x86_64/gcc-9.1.0/petsc-...
 
 
-makefile.local must be tailored to the specific computer being used. (And rankfile if hyperthreading)
+makefile must be tailored to the specific computer being used. (And rankfile if hyperthreading)
 
 ## Commands to run
 
-	1.  make -f makefile.local clean_data
-	2.  make -f makefile.local all
-	3.  make -f makefile.local in=<input> run
+	1.  make clean_data
+	2.  make all
+	3.  make in=<input> run
 	where <input> is an optional argument. Defaults to main.in.
 	4. Optional: Can save data with
-	    make -f makefile.<xxx> n=<directory> save_data
-	<xxx> is local or bs. <directory> will be put inside of ./SaveData/
+	    make n=<directory> save_data
 
 	Or, if on blueshark
 	1. sbatch start.job
