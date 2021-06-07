@@ -11,9 +11,9 @@
 #-smoothing
 #
 -dt 1.0e-4                     # Initial time step
--ts_max_steps 10        # maximum number of time steps
--viz_dstep 1          # plot every dstep
--ts_max_time 1.0e-2
+-ts_max_steps 1000000000        # maximum number of time steps
+-viz_dstep 5000          # plot every dstep
+-ts_max_time 3600
 #-mi0 5.3135e-26        #_kg, mass of O2+, only single charged ions allowed!
 #-mi1 5.3135e-26        #_kg, mass of O2+, only single charged ions allowed!
 #-mi2 5.3135e-26        #_kg, mass of O2+, only single charged ions allowed!
