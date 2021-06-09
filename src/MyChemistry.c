@@ -15,6 +15,7 @@
 #undef __FUNCT__
 #define __FUNCT__ "v1"
 PetscReal v1(void) {
+	return 0; //zzz
 	return 5.0e-7; //_s-1
 }
 
@@ -50,6 +51,7 @@ PetscReal v2(PetscReal N , PetscReal Te) {
 #undef __FUNCT__
 #define __FUNCT__ "v3"
 PetscReal v3(void) {
+	return 0; //zzz
 	return 2.0e-7; //_s-1
 }
 
@@ -117,6 +119,7 @@ PetscReal v7(PetscReal N , PetscReal Te) {
 #undef __FUNCT__
 #define __FUNCT__ "v8"
 PetscReal v8(PetscReal N) {
+	return 0; //zzz
 	PetscReal K, v;
 	K = 1.64e-10; //_cm^3/_s
 	v = N*K;
@@ -130,6 +133,7 @@ PetscReal v8(PetscReal N) {
 #undef __FUNCT__
 #define __FUNCT__ "v9"
 PetscReal v9(PetscReal N) {
+	return 0; //zzz
 	PetscReal K, v;
 	K = 9.6e-11; //_cm^3/_s
 	v = N*K;
