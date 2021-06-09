@@ -574,15 +574,15 @@ PetscErrorCode OutputData(void* ptr)
 			}
 			
 			// Get pointers to vector data
-			ierr = DMDAVecGetArrayDOF(da,U,&u);CHKERRQ(ierr);
-			if(xtra_out) {ierr = DMDAVecGetArrayDOF(db,V,&v);CHKERRQ(ierr);}
+			//ierr = DMDAVecGetArrayDOF(da,U,&u);CHKERRQ(ierr);
+			//if(xtra_out) {ierr = DMDAVecGetArrayDOF(db,V,&v);CHKERRQ(ierr);}
 
-			ierr = DMDAVecRestoreArrayDOF(da,U,&u);CHKERRQ(ierr);
-			ierr = VecDestroy(&U);CHKERRQ(ierr);
-			if(xtra_out) {
-				ierr = DMDAVecRestoreArrayDOF(db,V,&v);CHKERRQ(ierr);
-				ierr = VecDestroy(&V);CHKERRQ(ierr);
-			}
+			//ierr = DMDAVecRestoreArrayDOF(da,U,&u);CHKERRQ(ierr);
+			//ierr = VecDestroy(&U);CHKERRQ(ierr);
+			//if(xtra_out) {
+				//ierr = DMDAVecRestoreArrayDOF(db,V,&v);CHKERRQ(ierr);
+				//ierr = VecDestroy(&V);CHKERRQ(ierr);
+			//}
 		}
 	}
 	fclose(NFile);
