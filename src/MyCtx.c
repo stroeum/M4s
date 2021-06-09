@@ -160,8 +160,6 @@ PetscErrorCode InitCtx(AppCtx *user, MonitorCtx *usrmnt)
 	ierr = PetscTime(&user->t0);CHKERRQ(ierr);
 	user->ldName = sprintf(user->dName,"output/");
 	ierr = PetscOptionsGetString(PETSC_NULL,PETSC_NULL,"-output_folder",user->dName,PETSC_MAX_PATH_LEN-1,PETSC_NULL);CHKERRQ(ierr);
-	user->ldName = sprintf(user->vName,"viz_dir/");
-	ierr = PetscOptionsGetString(PETSC_NULL,PETSC_NULL,"-visualization_folder",user->vName,PETSC_MAX_PATH_LEN-1,PETSC_NULL);CHKERRQ(ierr);
 	
 	user->isInputFile = PETSC_FALSE;
 	user->ldName = sprintf(user->InputFile,"X0.bin");
