@@ -50,12 +50,14 @@ ifdef n
 		mkdir SaveData; \
 	fi
 
-	if [ ! -d "SaveData/$(n)_save" ]; then \
-		mkdir ./SaveData/$(n)_save
+	cd SaveData;
+	if [ ! -d "$(n)_save" ]; then \
+		mkdir ./$(n)_save; \
 	fi
 
-	cp ./output/* ./SaveData/$(n)_save/
-	cp ./input/main.in ./SaveData/$(n)_save/
+	cp ./output/* ./$(n)_save/;
+	cp ./input/main.in ./$(n)_save/;
+	cd ..;
 else
 	@echo "You must provide a directory name n=<...>"
 endif
